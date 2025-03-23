@@ -1,27 +1,32 @@
 # Get our SDK
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
+# Get image host architecture.
+ARG TARGETARCH
 
 # Setting working directory to "src"
 WORKDIR /src
 
-# The command below will copy the .csproj file to a directory
-# named ""Nameless.Docker.Web" inside "src" working directory above.
-COPY ["src/Nameless.Docker.Web/Nameless.Docker.Web.csproj", "Nameless.Docker.Web/"]
+# We are using global build properties file, let's copy them.
+COPY ["*.props", "."]
+
+# Now, copy the project files
+COPY ["Nameless.Docker.Core/*.csproj", "Nameless.Docker.Core/"]
+COPY ["Nameless.Docker.Web/*.csproj", "Nameless.Docker.Web/"]
 
 # Restore the application. Remember that we are at "src" working directory,
 # so there is not need to specify "src" at the begging of the path.
 RUN dotnet restore "Nameless.Docker.Web/Nameless.Docker.Web.csproj"
 
-# Copying the remaining files to the project directory
-COPY ["src/Nameless.Docker.Web", "Nameless.Docker.Web/"]
-COPY ["*.props", "/"]
+# Copy all source code
+COPY . .
 
 # Build the application
 RUN dotnet build "Nameless.Docker.Web/Nameless.Docker.Web.csproj" -c Release -o /app/build
 
 # Publish our application
 FROM build AS publish
-RUN dotnet publish "Nameless.Docker.Web/Nameless.Docker.Web.csproj" -c Relesae -o /app/publish
+RUN dotnet publish "Nameless.Docker.Web/Nameless.Docker.Web.csproj" -c Release -o /app/publish
 
 # Run our application
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
