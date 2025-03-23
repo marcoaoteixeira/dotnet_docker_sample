@@ -2,7 +2,14 @@ using Nameless.Docker.Web.Components;
 
 namespace Nameless.Docker.Web;
 
-public static class Program {
+/// <summary>
+/// Application Entrypoint Class
+/// </summary>
+public static class Entrypoint {
+    /// <summary>
+    /// Application Entrypoint method.
+    /// </summary>
+    /// <param name="args">Arguments</param>
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
