@@ -11,8 +11,12 @@ Instructions below will show your the way to get things working.
 Run Docker compose command in Terminal like this:
 
 ```powershell
-docker compose -d up
+docker compose up -d
 ```
+
+If you want more info about how to set a Dockerfile to your ASP.Net Core app,
+please refer this documentation: [Run ASP.Net Core Docker HTTPS](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-aspnetcore-https-development.md)
+
 ## Coding Styles
 
 Nothing written into stone, use your ol'good common sense. But you can refere

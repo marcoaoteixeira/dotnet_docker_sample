@@ -5,7 +5,7 @@ namespace Nameless.Docker.Web;
 /// <summary>
 /// Application Entrypoint Class
 /// </summary>
-public static class Entrypoint {
+public sealed class Entrypoint {
     /// <summary>
     /// Application Entrypoint method.
     /// </summary>
@@ -14,8 +14,13 @@ public static class Entrypoint {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddRazorComponents()
+        builder.Services
+               .AddRazorComponents()
                .AddInteractiveServerComponents();
+
+        if (builder.Environment.IsDevelopment()) {
+            builder.Configuration.AddUserSecrets<Entrypoint>();
+        }
 
         var app = builder.Build();
 

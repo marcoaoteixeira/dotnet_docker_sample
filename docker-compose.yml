@@ -1,0 +1,28 @@
+name: blazor-weather-app
+
+# To use HTTPS on our app, we need a certificate inside the container
+# and define some Kestrel env variables:
+# ASPNETCORE_Kestrel__Certificates__Default__Path
+# ASPNETCORE_Kestrel__Certificates__Default__Password
+# As a recommendation, these variables should be defined by the CI/CD
+# when the application is deployed and not stored here, in the Dockerfile/Docker Compose.
+# But for this example, we are using User Secrets. See: https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows
+
+services:
+  webapp:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        BUILD_CONFIG: ${BUILD_CONFIG}
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_HTTPS_PORTS: "6443"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "${CONTAINER_ASPNET_CERTS_FOLDER}Nameless.Docker.Web.pfx"
+    ports:
+      - "6080:80"
+      - "6443:443"
+    volumes:
+      - ${HOST_USERSECRETS_FOLDER}:${CONTAINER_USERSECRETS_FOLDER} # This is our secrets dir map
+      - ${HOST_ASPNET_CERTS_FOLDER}:${CONTAINER_ASPNET_CERTS_FOLDER} # This is our certificate dir map

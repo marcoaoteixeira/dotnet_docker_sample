@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<UserSecretsId>4f6b1b91-47b1-4fbc-b206-797e9cc6fbd3</UserSecretsId>
+	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Nameless.Docker.Core\Nameless.Docker.Core.csproj" />
 	</ItemGroup>
