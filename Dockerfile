@@ -23,9 +23,8 @@ RUN dotnet publish "Nameless.Docker.Web/Nameless.Docker.Web.csproj" -c ${BUILD_C
 # Run our application
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
-# Expose container ports
-EXPOSE 443
-EXPOSE 80
+# Expose container port
+EXPOSE 5443
 
 # Let's set "app" as our working directory from here on.
 WORKDIR /app
